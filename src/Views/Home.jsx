@@ -9,6 +9,7 @@ export default function Home() {
 
     //This points directly to the current theme
     //console.log(document.children[0].dataset.theme, "this")
+    
     const randBackground = () => {
         let x = [
             avant_image1,
@@ -27,7 +28,7 @@ export default function Home() {
                 <div className="hero-content text-center text-neutral-content">
                     <div className="max-w-md hero-overlay bg-opacity-30 p-12 rounded-xl">
                         <h1 className="mb-5 text-5xl font-bold">Welcome to myGuest</h1>
-                        <p className="mb-5">A convenient place for hairstylists to create and maintain a personal database of their clientelle. </p>
+                        <p className="mb-5">A convenient place for you to create and maintain a <b>personal database of your clientelle</b>. Allowing you to keep records of <b>color history</b> and <b>formulas</b>, as well as upload <b>photos of your work</b> and even contacting your clients through <b>email or text</b>. Made for hairstylists, by hairstylists!</p>
                         <div className='flex justify-center w-full'>
                             <Link className="btn btn-accent" to="/signup">Get Started</Link>
                             <div className="divider divider-horizontal">OR</div>

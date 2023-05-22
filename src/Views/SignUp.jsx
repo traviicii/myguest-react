@@ -36,7 +36,7 @@ export default function SignUp() {
         const res = await fetch(url, options);
         const data = await res.json();
         if (data.status === 'ok') {
-            // Show success msg
+            // Show success msg "Account successfully created!" data.message
             console.log(data)
         }
 
@@ -44,15 +44,12 @@ export default function SignUp() {
 
 
     const createNewUser = async (e) => {
+        e.preventDefault()
 
         const first_name = e.target.first_name.value
         const last_name = e.target.last_name.value
         const email = e.target.email.value
         const password = e.target.password.value
-        if (password == null) {
-            // RETURN ERROR MESSAGE
-            return console.log("You must have a password!")
-        }
 
         const url = BACK_END_URL + '/api/signup';
         const options = {
@@ -75,13 +72,20 @@ export default function SignUp() {
         //     // Throw error msg here.
         //     return 
         // }
-
+        try{
         const res = await fetch(url, options);
         const data = await res.json();
         if (data.status === 'ok') {
             // Show success msg
             console.log(data)
+            navigate('/login')
+        }else {
+            return console.log(data.message)
         }
+    }
+    catch{
+        console.log("something went wrong with createNewUser")
+    }
 
     };
 
@@ -93,11 +97,9 @@ export default function SignUp() {
             const result = await signInWithPopup(auth, provider);
             const user = result.user
             if (user) {
-                localStorage.setItem('myGuest_user', JSON.stringify(user))
-                setUser(user)
                 console.log(user)
                 await creatUserFromGoogle(user)
-                navigate('/clients')
+                navigate('/login')
             }
         }
         catch {
@@ -112,7 +114,7 @@ export default function SignUp() {
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <div className="text-center lg:text-left">
                     <h1 className="text-5xl font-bold text-base-100">Create an account with us</h1>
-                    <p className="py-6 text-base-100">or sign in with Google!</p>
+                    <p className="py-6 text-base-100">or sign up with Google!</p>
                 </div>
                 <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl hero-overlay bg-base-100 bg-opacity-20">
                     <div className="card-body">
@@ -121,25 +123,25 @@ export default function SignUp() {
                                 <label className="label">
                                     <span className="label-text text-base-100">First Name</span>
                                 </label>
-                                <input type="text" placeholder="First Name" name='first_name' className="input input-bordered" />
+                                <input type="text" required="required" placeholder="First Name" name='first_name' className="input input-bordered" />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text text-base-100">Last Name</span>
                                 </label>
-                                <input type="text" placeholder="Last Name" name='last_name' className="input input-bordered" />
+                                <input type="text" required="required" placeholder="Last Name" name='last_name' className="input input-bordered" />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text text-base-100">Email</span>
                                 </label>
-                                <input type="text" placeholder="email" name='email' className="input input-bordered" />
+                                <input type="text" required="required" placeholder="Email" name='email' className="input input-bordered" />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text text-base-100">Password</span>
                                 </label>
-                                <input type="password" placeholder="password" name='password' className="input input-bordered" />
+                                <input type="password" required="required" placeholder="Password" name='password' className="input input-bordered" />
                             </div>
                             <div className="form-control mt-6">
                                 <button className="btn btn-accent">Sign Up</button>
@@ -155,29 +157,4 @@ export default function SignUp() {
 
 
     )
-}
-
-
-
-{    // const createEmailUser = async (e) => {
-    //     e.preventDefault()
-    //     const email = e.target.email.value
-    //     const password = e.target.password.value
-
-    //     const auth = getAuth();
-    //     try {
-    //         const result = await createUserWithEmailAndPassword(auth, email, password);
-    //         const user = result.user
-    //         if (user) {
-    //             localStorage.setItem('myGuest_user', JSON.stringify(user))
-    //             setUser(user)
-    //             console.log(user)
-    //             await creatUserFromGoogle(user)
-    //             navigate('/clients')
-    //         }
-    //     }
-    //     catch {
-    //         navigate('/signup')
-    //     }
-    // };
 }

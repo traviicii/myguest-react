@@ -39,7 +39,7 @@ export default function App() {
         <Navbar />
         <Routes>
           <Route path='/' element={<Home />}/>
-          <Route path='/signin' element={<LogIn />}/>
+          <Route path='/login' element={<LogIn />}/>
           <Route path='/signup' element={<SignUp />}/>
           <Route path='/clients' element={<Clients />}/>
           <Route path='/userprofile' element={<UserProfile />}/>
