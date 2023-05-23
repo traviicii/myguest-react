@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { UserContext } from '../Context/UserContext'
 import { useContext } from 'react'
 import stuntbot from '../images/stuntbot.png'
@@ -7,8 +7,6 @@ import { themeChange } from 'theme-change'
 
 
 export default function Navbar() {
-
-    const navigate = useNavigate()
 
     const { user, logMeOut } = useContext(UserContext)
 
@@ -27,22 +25,30 @@ export default function Navbar() {
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
                         </label>
                         <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                            <li><Link className='text-accent' to={'/'}>Home</Link></li>
-                            <li><Link className='text-accent' to={'/signup'}>Sign Up</Link></li>
-                            <li><Link className='text-accent' to={'/clients'}>Clients</Link></li>
+                            {user.id ?
+                                <>
+                                    <li><Link className='text-accent' to={'/clients'}>Clients</Link></li>
+                                    <li><Link className='text-accent' to={'/userprofile'}>Profile</Link></li>
+                                    <li><Link className='text-accent' to={'/settings'}>Settings</Link></li>
+                                    <li><Link className='text-accent' onClick={() => logMeOut()}>Logout</Link></li>
+                                </>
+                                :
+                                <>
+                                    <li><Link className='text-accent' to={'/'}>Homee</Link></li>
+                                    <li><Link className='text-accent' to={'/SignUp'}>Sign Up</Link></li>
+                                </>
+                            }
                             <li>
-                            <label className='text-accent' for="theme">Theme
-                                <select data-choose-theme data-key="myGuest_theme" className='hover' id="theme">
-                                    <option value="mytheme">Default</option>
-                                    <option value="cyberpunk">Cyberpunk</option>
-                                    <option value="light">Light</option>
-                                    <option value="dark">Dark</option>
-                                    <option value="halloween">Halloween</option>
-                                    <option value="lemonade">Lemonade</option>
-                                    <option value="acid">Acid</option>
-                                    <option value="synthwave">Synthwave</option>
-                                </select>
-                            </label>
+                                <label className='text-accent' data-key="myGuest_theme" for="theme">Theme
+                                    <select data-choose-theme className='' id="theme">
+                                        <option value="cyberpunk">Cyberpunk</option>
+                                        <option value="mytheme">myGuest</option>
+                                        <option value="lofi">LoFi</option>
+                                        <option value="halloween">Halloween</option>
+                                        <option value="synthwave">Synthwave</option>
+                                        <option value="black">Black</option>
+                                    </select>
+                                </label>
                             </li>
                         </ul>
                     </div>
@@ -52,18 +58,28 @@ export default function Navbar() {
                     </Link>
                 </div>
 
-                <div className="navbar hidden lg:flex">
+                <div className="navbar hidden lg:flex lg:justify-center">
                     <ul className="menu menu-horizontal px-1">
-                        <li><Link className='text-accent' to={'/'}>Homee</Link></li>
-                        <li><Link className='text-accent' to={'/SignUp'}>Sign Up</Link></li>
-                        <li><Link className='text-accent' to={'/clients'}>Clients</Link></li>
-                        {user.id ? <li><p className='text-secondary'>Hello, {user.first_name}!</p></li> : ''}
+                        {user.id ?
+                            <>
+                                <li><Link className='text-accent' to={'/clients'}>Clients</Link></li>
+                                <li><Link className='text-accent' to={'/userprofile'}>Profile</Link></li>
+                                <li><Link className='text-accent' to={'/settings'}>Settings</Link></li>
+                                <li><Link className='text-accent' onClick={() => logMeOut()}>Logout</Link></li>
+                                <li><p className='text-neutral-content'>Hello, {user.first_name}!</p></li>
+                            </>
+                            :
+                            <>
+                                <li><Link className='text-accent' to={'/'}>Homee</Link></li>
+                                <li><Link className='text-accent' to={'/SignUp'}>Sign Up</Link></li>
+                            </>
+                        }
                         <li>
-                            
+
                             <label className='text-accent' data-key="myGuest_theme" for="theme">Theme
                                 <select data-choose-theme className='' id="theme">
-                                    <option value="mytheme">Default</option>
                                     <option value="cyberpunk">Cyberpunk</option>
+                                    <option value="mytheme">myGuest</option>
                                     <option value="lofi">LoFi</option>
                                     <option value="halloween">Halloween</option>
                                     <option value="synthwave">Synthwave</option>
@@ -82,9 +98,7 @@ export default function Navbar() {
                             </div>
                         </label>
                         <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                            <li><Link to={'/userprofile'}>Profile</Link></li>
-                            <li><Link to={'/settings'}>Settings</Link></li>
-                            <li><Link onClick={() => logMeOut()}>Logout</Link></li>
+                            {"placeholder"}
                         </ul>
                     </div>
 

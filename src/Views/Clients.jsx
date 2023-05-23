@@ -1,22 +1,159 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { UserContext } from '../Context/UserContext';
-import { getDatabase, ref, set, child, get } from "firebase/database";
+import { GlobalContext } from '../Context/GlobalContext';
+// import { getDatabase, ref, set, child, get } from "firebase/database";
+import Client_List from '../Components/Client_List';
+
+const BACK_END_URL = process.env.REACT_APP_BACKEND_URL
 
 export default function Clients() {
 
-    const [clients, setClients] = useState({})
+    const { clients, setClients } = useContext(GlobalContext)
     const { user, setUser } = useContext(UserContext)
 
-    const addClient = () => {
-        const db = getDatabase()
-        set(ref(db, `/${user.uid}/clientid/formulaid/`), {
-            photos: 'https://cdn.discordapp.com/attachments/1004495634113511607/1107117378950668368/traviistea_stunning_hair_models_avant_garde_haircuts_mugler_pho_ea15d949-3a5b-4583-b0d9-9b475cc0a848.png',
-        });
-    }
+    const addClient = async (e) => {
+        e.preventDefault()
+        const token = user.apitoken
+
+        const first_name = e.target.first_name.value
+        const last_name = e.target.last_name.value
+        const email = e.target.email.value
+        const phone = e.target.password.value
+        const type = e.target.type.value
+
+        const url = BACK_END_URL + '/api/addclient';
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                first_name: first_name,
+                last_name: last_name,
+                email: email,
+                phone: phone,
+                type: type
+            })
+        }
+
+        try {
+            const res = await fetch(url, options);
+            const data = await res.json();
+            if (data.status === 'ok') {
+                // Show success msg
+                console.log(data)
+            } else {
+                return console.log(data.message)
+            }
+        }
+        catch {
+            console.log("Could not add client. Try again?")
+        }
+    };
+
+    const getClients = async () => {
+        const token = user.apitoken
+
+        const res = await fetch(`${BACK_END_URL}/api/userclients`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+        })
+        const data = await res.json()
+        console.log(data)
+        setClients(data.clients)
+    };
+
+    useEffect(() => { getClients() }, [])
+
+    const showClients = () => {
+        return clients.map((client, index) => <Client_List key={index} client={client} />)
+    };
 
     return (
         <div>
 
+            <div className='flex justify-center sm:align-end'>
+                {/* The button to open modal */}
+                <label htmlFor="my-modal-4" className="btn rounded-b-full pb-5 mb-5">Add Client</label>
+            </div>
+
+            {/* Put this part before </body> tag */}
+            <input type="checkbox" id="my-modal-4" className="modal-toggle" />
+            <label htmlFor="my-modal-4" className="modal modal-bottom sm:modal-middle cursor-pointer">
+                <label className="modal-box relative" htmlFor="">
+                    <form onSubmit={(e) => { addClient(e) }}>
+                        <div className='flex justify-between'>
+                            <h2 className='text-2xl'>Add New Client</h2>
+                        </div>
+                        <div className="form-control">
+
+                            <div className="form-input">
+                                <br></br>
+                                <label className="input-group input-group-vertical">
+                                    <span>First Name</span>
+                                    <input type="tel" placeholder="First Name" className="form-input input input-bordered" />
+                                </label>
+                            </div>
+
+                            <div className="form-input">
+                                <br></br>
+                                <label className="input-group input-group-vertical">
+                                    <span>Last Name</span>
+                                    <input type="text" placeholder="Last Name" className="form-input input input-bordered" />
+                                </label>
+                            </div>
+
+                            <div className="form-input">
+                                <br></br>
+                                <label className="input-group input-group-vertical">
+                                    <span>Email</span>
+                                    <input type="text" placeholder="info@site.com" className="form-input input input-bordered" />
+                                </label>
+                            </div>
+
+                            <div className="form-input">
+                                <br></br>
+                                <label className="input-group input-group-vertical">
+                                    <span>Phone</span>
+                                    <input type="text" placeholder="4443331122" className="form-input input input-bordered" />
+                                </label>
+                            </div>
+
+                            <br></br>
+                            <div className='form-radio flex justify-around'>
+                                <div className="form-control">
+                                    <label className="label cursor-pointer">
+                                        <span className="label-text pr-1">Color</span>
+                                        <input type="radio" name="type" value="color" className="form-radio radio checked:accent-content" checked />
+                                    </label>
+                                </div>
+                                <div className="form-control">
+                                    <label className="label cursor-pointer">
+                                        <span className="label-text pr-1">Both</span>
+                                        <input type="radio" name="type" value="cut & color" className="form-radio radio checked:accent-content" checked />
+                                    </label>
+                                </div>
+                                <div className="form-control">
+                                    <label className="label cursor-pointer">
+                                        <span className="label-text pr-1">Cut</span>
+                                        <input type="radio" name="type" value="cut" className="form-radio radio checked:accent-content" checked />
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div className='flex justify-center mt-5'>
+                                <button className="btn btn-wide form-control">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </label>
+            </label>
+
+            {/* Start of the client table */}
             <div className="overflow-x-auto w-full">
                 <table className={`table table-compact  table-zebra w-full`}>
                     {/* head */}
@@ -38,36 +175,8 @@ export default function Clients() {
                     </thead>
                     <tbody>
                         {/* row 1 */}
-                        <tr>
-                            
-                            <td>
-                                <div className="flex items-center space-x-3">
-                                    <div className="avatar">
-                                        <div className="mask mask-squircle w-12 h-12">
-                                            <img src="https://lh3.googleusercontent.com/a/AGNmyxYp3h0HYsVH3SKsMqCdDF46zkL2VmKov9GfX-Auuw=s96-c" alt="User Profile Image" />
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="font-bold">Hart Hagerty</div>
-                                        <div className="text-sm opacity-50">United States</div>
-                                    </div>
-                                </div>
-                            </td>
-                            {window.innerWidth > 400 ?
-                             <td>
-                                Zemlak, Daniel and Leannon
-                                <br />
-                                <span className="badge badge-accent badge-sm">Desktop Support Technician</span>
-                            </td>
-                            :
-                            ''
-                            }
+                        {showClients()}
 
-                            <th>
-                                <button onClick={addClient} className="btn btn-xs btn-secondary">details</button>
-                            </th>
-                        </tr>
-                        
                     </tbody>
                     {/* foot */}
                     <tfoot>

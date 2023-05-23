@@ -23,7 +23,7 @@ module.exports = {
           "error": "#ef4444"
           },
       },
-      "cyberpunk", "dark", "halloween", "lemonade", "acid", "light", "synthwave", 
+      "cyberpunk", "dark", "halloween", "synthwave", 
       {
         lofi:{
           ...require("daisyui/src/colors/themes")["[data-theme=lofi]"],
