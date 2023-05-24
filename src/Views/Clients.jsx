@@ -11,6 +11,7 @@ export default function Clients() {
     const { clients, setClients } = useContext(GlobalContext)
     const { user, setUser } = useContext(UserContext)
 
+
     const addClient = async (e) => {
         e.preventDefault()
         const token = user.apitoken
@@ -18,7 +19,7 @@ export default function Clients() {
         const first_name = e.target.first_name.value
         const last_name = e.target.last_name.value
         const email = e.target.email.value
-        const phone = e.target.password.value
+        const phone = e.target.phone.value
         const type = e.target.type.value
 
         const url = BACK_END_URL + '/api/addclient';
@@ -29,11 +30,13 @@ export default function Clients() {
                 Authorization: `Bearer ${token}`
             },
             body: JSON.stringify({
+                user_id: user.id,
                 first_name: first_name,
                 last_name: last_name,
                 email: email,
                 phone: phone,
-                type: type
+                type: type,
+                notes: ""
             })
         }
 
@@ -43,6 +46,7 @@ export default function Clients() {
             if (data.status === 'ok') {
                 // Show success msg
                 console.log(data)
+
             } else {
                 return console.log(data.message)
             }
@@ -94,7 +98,7 @@ export default function Clients() {
                                 <br></br>
                                 <label className="input-group input-group-vertical">
                                     <span>First Name</span>
-                                    <input type="tel" placeholder="First Name" className="form-input input input-bordered" />
+                                    <input type="text" required="required" placeholder="First Name" name="first_name" className="form-input input input-bordered" />
                                 </label>
                             </div>
 
@@ -102,7 +106,7 @@ export default function Clients() {
                                 <br></br>
                                 <label className="input-group input-group-vertical">
                                     <span>Last Name</span>
-                                    <input type="text" placeholder="Last Name" className="form-input input input-bordered" />
+                                    <input type="text" placeholder="Last Name" name="last_name" className="form-input input input-bordered" />
                                 </label>
                             </div>
 
@@ -110,7 +114,7 @@ export default function Clients() {
                                 <br></br>
                                 <label className="input-group input-group-vertical">
                                     <span>Email</span>
-                                    <input type="text" placeholder="info@site.com" className="form-input input input-bordered" />
+                                    <input type="text" placeholder="info@site.com" name="email" className="form-input input input-bordered" />
                                 </label>
                             </div>
 
@@ -118,12 +122,12 @@ export default function Clients() {
                                 <br></br>
                                 <label className="input-group input-group-vertical">
                                     <span>Phone</span>
-                                    <input type="text" placeholder="4443331122" className="form-input input input-bordered" />
+                                    <input type="text" placeholder="4443331122" name="phone" className="form-input input input-bordered" />
                                 </label>
                             </div>
 
-                            <br></br>
-                            <div className='form-radio flex justify-around'>
+                            
+                            <div className='form-radio flex justify-around pt-4 pb-4'>
                                 <div className="form-control">
                                     <label className="label cursor-pointer">
                                         <span className="label-text pr-1">Color</span>
@@ -141,6 +145,15 @@ export default function Clients() {
                                         <span className="label-text pr-1">Cut</span>
                                         <input type="radio" name="type" value="cut" className="form-radio radio checked:accent-content" checked />
                                     </label>
+                                </div>
+                            </div>
+
+                            <div tabIndex={0} className="collapse collapse-plus border border-base-300 bg-base-100 rounded-box">
+                                <div className="collapse-title text-md font-medium">
+                                    Add Note
+                                </div>
+                                <div className="collapse-content">
+                                    <textarea  placeholder="Client Notes" className="collapse-content textarea textarea-bordered textarea-xs w-full max-w-xs"></textarea>
                                 </div>
                             </div>
 

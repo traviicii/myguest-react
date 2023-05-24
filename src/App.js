@@ -44,7 +44,7 @@ export default function App() {
           <Route path='/clients' element={<Clients />}/>
           <Route path='/userprofile' element={<UserProfile />}/>
           <Route path='/settings' element={<Settings />}/>
-          <Route path='/client/CLIENT_ID' element={<SingleClient />}/>
+          <Route path='/client/:client_id' element={<SingleClient />}/>
 
         </Routes>
         

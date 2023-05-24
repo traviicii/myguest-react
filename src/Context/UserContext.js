@@ -16,6 +16,7 @@ const UserContextProvider = ({ children }) => {
     const [user, setUser] = useState(getUserFromLS);
 
     const navigate = useNavigate()
+
     const logMeOut = () => {
         setUser({})
         localStorage.removeItem('myGuest_user')
@@ -25,7 +26,8 @@ const UserContextProvider = ({ children }) => {
     const myValues = {
         user, 
         setUser,
-        logMeOut
+        logMeOut,
+        navigate
     };
     
     return (

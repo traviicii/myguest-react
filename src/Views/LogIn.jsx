@@ -4,6 +4,7 @@ import haircut_background from '../images/haircut_background.png'
 import blue_hair from '../images/blue_hair.png'
 import group from '../images/group.png'
 import dual_tone from '../images/dual_tone.png'
+import stunty_bob from '../images/stunty_bob.png'
 import { UserContext } from '../Context/UserContext'
 import { useNavigate } from 'react-router-dom'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
@@ -15,6 +16,15 @@ export default function LogIn() {
   const { setUser } = useContext(UserContext)
 
   const navigate = useNavigate()
+
+  const randBackground = () => {
+    let x = [
+        dual_tone,
+        stunty_bob
+    ];
+    let choice = Math.floor(Math.random() * (x.length));
+    return x[choice]
+};
 
   const logIn = async (e) => {
     e.preventDefault()
@@ -108,7 +118,7 @@ export default function LogIn() {
 
   return (
     <>
-      <div className='hero min-h-screen' style={{ backgroundImage: `url(${dual_tone})` }}>
+      <div className='hero min-h-screen' style={{ backgroundImage: `url(${randBackground()})` }}>
         <div className="card w-72 ">
           <span className=' flex justify-center'>
             <p className='bg-neutral-focus text-5xl pb-10 text-base-100 pb-2'>Log In</p>

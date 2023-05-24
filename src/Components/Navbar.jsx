@@ -8,11 +8,10 @@ import { themeChange } from 'theme-change'
 
 export default function Navbar() {
 
-    const { user, logMeOut } = useContext(UserContext)
+    const { user, logMeOut, navigate } = useContext(UserContext)
 
     useEffect(() => {
         themeChange(false)
-        // 👆 false parameter is required for react project
     }, [])
 
 
@@ -39,8 +38,8 @@ export default function Navbar() {
                                 </>
                             }
                             <li>
-                                <label className='text-accent' data-key="myGuest_theme" for="theme">Theme
-                                    <select data-choose-theme className='' id="theme">
+                                <label className='text-accent dropdown dropdown-end' data-key="myGuest_theme" for="theme">Theme
+                                    <select data-choose-theme className='dropdown dropdown-end' id="theme">
                                         <option value="cyberpunk">Cyberpunk</option>
                                         <option value="mytheme">myGuest</option>
                                         <option value="lofi">LoFi</option>
