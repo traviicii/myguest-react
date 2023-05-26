@@ -9,12 +9,13 @@ export default function Home() {
 
     //This points directly to the current theme
     //console.log(document.children[0].dataset.theme, "this")
-    
+
     const randBackground = () => {
         let x = [
             avant_image1,
             platinum_bob,
-            modern_french_bob
+            modern_french_bob,
+            haircut_background
         ];
         let choice = Math.floor(Math.random() * (x.length));
         return x[choice]

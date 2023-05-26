@@ -12,7 +12,7 @@ module.exports = {
     themes: [
       {
         mytheme: {
-          "primary": "#a3e635",    
+          "primary": "#9333ea",    
           "secondary": "#fb7185",    
           "accent": "#4d7c0f",    
           "neutral": "#000000",    
@@ -23,7 +23,7 @@ module.exports = {
           "error": "#ef4444"
           },
       },
-      "cyberpunk", "dark", "halloween", "synthwave", 
+      "cyberpunk", "dark", "halloween", "synthwave", "valentine",
       {
         lofi:{
           ...require("daisyui/src/colors/themes")["[data-theme=lofi]"],

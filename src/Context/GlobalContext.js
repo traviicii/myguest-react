@@ -4,11 +4,23 @@ export const GlobalContext = createContext();
 
 const GlobalContextProvider = ({ children }) => {
 
+    
+    const getCurrentClientFromLS = () => {
+        const found = localStorage.getItem('myGuest_currentClient');
+        if (found){
+            return JSON.parse(found)
+        }
+        return {}
+    }
+    
     const [clients, setClients] = useState([])
-
+    const [currentClient, setCurrentClient] = useState(getCurrentClientFromLS)
+    
     const myvalues = {
         clients,
-        setClients
+        setClients,
+        currentClient,
+        setCurrentClient
     }
 
   return (

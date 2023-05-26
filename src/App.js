@@ -10,6 +10,9 @@ import Clients from './Views/Clients';
 import UserProfile from './Views/UserProfile';
 import Settings from './Views/Settings';
 import SingleClient from './Views/SingleClient';
+import Formulas from './Views/Formulas';
+import ClientColorChart from './Views/ClientColorChart';
+
 // import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -45,6 +48,8 @@ export default function App() {
           <Route path='/userprofile' element={<UserProfile />}/>
           <Route path='/settings' element={<Settings />}/>
           <Route path='/client/:client_id' element={<SingleClient />}/>
+          <Route path='/client/:client_id/formulas' element={<Formulas />}/>
+          <Route path='/client/:client_id/colorchart' element={<ClientColorChart />}/>
 
         </Routes>
         
